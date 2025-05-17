@@ -24,6 +24,9 @@ jobs:
       - name: Build JAR
         run: mvn clean package -DskipTests
 
+      - name: Verify JAR file exists
+        run: ls -l target/punto-equilibrio-1.0.0.jar
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -32,7 +35,7 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker build -t angiecobo/ova-costos:latest .
+          docker build --progress=plain --no-cache -t angiecobo/ova-costos:latest .
           docker push angiecobo/ova-costos:latest
 
   deploy:
@@ -49,8 +52,8 @@ jobs:
       - name: Verify compose.yaml Exists
         run: |
           if [ ! -f compose.yaml ]; then
-          echo "Error: compose.yaml not found!"
-          exit 1
+            echo "Error: compose.yaml not found!"
+            exit 1
           fi
 
       - name: Create SSH Key File
@@ -62,6 +65,14 @@ jobs:
       - name: Add Host to known_hosts
         run: |
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Create directory on EC2
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: mkdir -p ~/app-costos
 
       - name: Copy docker-compose.yaml to EC2
         run: |
@@ -75,5 +86,5 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd ~/app-costos
-            docker compose --profile app pull
-            docker compose --profile app up -d
+            sudo docker compose --profile app pull
+            sudo docker compose --profile app up -d
