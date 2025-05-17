@@ -2,8 +2,10 @@ FROM openjdk:23-jdk-slim
 
 LABEL authors="angiecobo"
 
+# Instalar compilador y herramientas necesarias
 RUN apt-get update && apt-get install -y build-essential
 
+# Regresar al directorio raíz del proyecto
 WORKDIR /app
 
 COPY . .
@@ -21,7 +23,5 @@ RUN gcc -shared -z noexecstack -o libpuntoequilibrio.so punto_equilibrio.o aritm
 # Mover la librería al sistema para que Java la encuentre
 RUN mv libpuntoequilibrio.so /usr/lib/
 
+# Comando para iniciar el microservicio
 ENTRYPOINT ["java", "-jar", "target/punto-equilibrio-1.0.0.jar"]
-
-
-
