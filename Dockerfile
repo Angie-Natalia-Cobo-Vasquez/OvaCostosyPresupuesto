@@ -6,8 +6,10 @@ RUN apt-get update && apt-get install -y build-essential
 
 WORKDIR /app
 
-# Copiar solo lo necesario (no todo el proyecto)
+# Copiar el archivo JAR al contenedor
 COPY target/punto-equilibrio-1.0.0.jar app.jar
+
+# Copiar el código fuente C
 COPY src/main/cpp src/main/cpp
 
 # Compilar C y ensamblador
@@ -21,4 +23,5 @@ RUN gcc -shared -z noexecstack -o libpuntoequilibrio.so punto_equilibrio.o aritm
 RUN mv libpuntoequilibrio.so /usr/lib/
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
+
 
