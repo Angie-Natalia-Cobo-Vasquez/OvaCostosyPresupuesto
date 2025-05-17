@@ -1,0 +1,14 @@
+services:
+  ova-costos:
+    image: angiecobo/ova-costos:latest
+    container_name: ova-costos
+    ports:
+      - "8080:8080"
+    profiles:
+      - app
+    networks:
+      - red-backend-app
+
+networks:
+  red-backend-app:
+    driver: bridge

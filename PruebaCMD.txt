@@ -1,0 +1,17 @@
+Microsoft Windows [Versión 10.0.22631.5335]
+(c) Microsoft Corporation. Todos los derechos reservados.
+
+C:\Users\Cobo2>curl -X POST http://localhost:8080/api/equilibrio/native -H "Content-Type: application/json" -d "{\"costoFijo\":1000,\"precioUnitario\":50,\"costoVariableUnitario\":40,\"unidadesInicial\":50}"
+{"unidadesEquilibrio":100,"ingreso":5000.0,"costoTotal":5000.0}
+
+C:\Users\Cobo2>curl -X POST http://localhost:8080/api/equilibrio/native -H "Content-Type: application/json" -d "{\"costoFijo\":5000,\"precioUnitario\":100,\"costoVariableUnitario\":60,\"unidadesInicial\":100}"
+{"unidadesEquilibrio":125,"ingreso":12500.0,"costoTotal":12500.0}
+
+C:\Users\Cobo2>curl -X POST http://localhost:8080/api/equilibrio/native -H "Content-Type: application/json" -d "{\"costoFijo\":2000,\"precioUnitario\":20,\"costoVariableUnitario\":19,\"unidadesInicial\":100}"
+{"unidadesEquilibrio":2000,"ingreso":40000.0,"costoTotal":40000.0}
+
+C:\Users\Cobo2>curl -X POST http://localhost:8080/api/equilibrio/native -H "Content-Type: application/json" -d "{\"costoFijo\":1000,\"precioUnitario\":30,\"costoVariableUnitario\":30,\"unidadesInicial\":100}"
+{"error":"No es posible calcular el punto de equilibrio: margen unitario cero"}
+
+C:\Users\Cobo2>curl -X POST http://localhost:8080/api/equilibrio/native -H "Content-Type: application/json" -d "{\"costoFijo\":1000,\"precioUnitario\":20,\"costoVariableUnitario\":25,\"unidadesInicial\":100}"
+{"error":"El precio unitario debe ser mayor al costo variable unitario"}

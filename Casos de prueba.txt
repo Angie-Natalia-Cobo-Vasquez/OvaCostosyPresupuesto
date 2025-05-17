@@ -1,0 +1,106 @@
+✅ 1. Escenario básico: equilibrio en 100 unidades
+bash
+Copiar
+Editar
+curl -X POST http://localhost:8080/api/equilibrio/native \
+  -H "Content-Type: application/json" \
+  -d '{
+    "costoFijo": 1000,
+    "precioUnitario": 50,
+    "costoVariableUnitario": 40,
+    "unidadesInicial": 50
+}'
+Output esperado:
+
+json
+Copiar
+Editar
+{
+  "unidadesEquilibrio": 100,
+  "ingreso": 5000,
+  "costoTotal": 5000
+}
+✅ 2. Alto costo fijo, equilibrio desplazado
+bash
+Copiar
+Editar
+curl -X POST http://localhost:8080/api/equilibrio/native \
+  -H "Content-Type: application/json" \
+  -d '{
+    "costoFijo": 5000,
+    "precioUnitario": 100,
+    "costoVariableUnitario": 60,
+    "unidadesInicial": 100
+}'
+Output esperado:
+
+json
+Copiar
+Editar
+{
+  "unidadesEquilibrio": 125,
+  "ingreso": 12500,
+  "costoTotal": 12500
+}
+✅ 3. Costo variable casi igual al precio (poco margen)
+bash
+Copiar
+Editar
+curl -X POST http://localhost:8080/api/equilibrio/native \
+  -H "Content-Type: application/json" \
+  -d '{
+    "costoFijo": 2000,
+    "precioUnitario": 20,
+    "costoVariableUnitario": 19,
+    "unidadesInicial": 100
+}'
+Output esperado:
+
+json
+Copiar
+Editar
+{
+  "unidadesEquilibrio": 2000,
+  "ingreso": 40000,
+  "costoTotal": 40000
+}
+✅ 4. Sin margen de ganancia (debe lanzar error o no converger)
+bash
+Copiar
+Editar
+curl -X POST http://localhost:8080/api/equilibrio/native \
+  -H "Content-Type: application/json" \
+  -d '{
+    "costoFijo": 1000,
+    "precioUnitario": 30,
+    "costoVariableUnitario": 30,
+    "unidadesInicial": 100
+}'
+Output esperado:
+
+json
+Copiar
+Editar
+{
+  "error": "No es posible calcular el punto de equilibrio: margen unitario cero"
+}
+✅ 5. Costo variable mayor al precio (debe lanzar error)
+bash
+Copiar
+Editar
+curl -X POST http://localhost:8080/api/equilibrio/native \
+  -H "Content-Type: application/json" \
+  -d '{
+    "costoFijo": 1000,
+    "precioUnitario": 20,
+    "costoVariableUnitario": 25,
+    "unidadesInicial": 100
+}'
+Output esperado:
+
+json
+Copiar
+Editar
+{
+  "error": "El precio unitario debe ser mayor al costo variable unitario"
+}
