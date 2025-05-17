@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y build-essential
 
 WORKDIR /app
 
-# Copiar solo lo necesario (no todo el proyecto)
+# Copia el JAR ya compilado por Maven en el pipeline
 COPY target/punto-equilibrio-1.0.0.jar app.jar
 COPY src/main/cpp src/main/cpp
 
