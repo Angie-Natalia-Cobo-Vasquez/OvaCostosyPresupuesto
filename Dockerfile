@@ -8,7 +8,7 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:21-jdk
 WORKDIR /app
 COPY --from=builder /app/target/punto-equilibrio-1.0.0.jar ./app.jar
-COPY libpuntoequilibrio.so /usr/lib/libpuntoequilibrio.so
+COPY lib/libpuntoequilibrio.so /usr/lib/libpuntoequilibrio.so
 ENV LD_LIBRARY_PATH=/usr/lib
 ENTRYPOINT ["java", "-jar", "app.jar"]
 
