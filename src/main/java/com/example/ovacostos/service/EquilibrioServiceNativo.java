@@ -3,7 +3,7 @@ package com.example.ovacostos.service;
 public class EquilibrioServiceNativo {
 
     static {
-        System.load("D:\\OvaCostos\\lib\\libpuntoequilibrio.so");
+        System.loadLibrary("puntoequilibrio");
     }
 
     // Método nativo
