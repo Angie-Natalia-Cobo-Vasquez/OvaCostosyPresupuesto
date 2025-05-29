@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: ova-costos
+  config:
+    import: optional:configserver:http://localhost:8888
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    open-in-view: false
+
+  main:
+    allow-bean-definition-overriding: true
+
+

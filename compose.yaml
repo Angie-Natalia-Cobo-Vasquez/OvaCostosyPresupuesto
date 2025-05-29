@@ -4,11 +4,10 @@ services:
     container_name: ova-costos
     ports:
       - "8080:8080"
-    profiles:
-      - app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:testdb
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD:
     networks:
       - red-backend-app
 
-networks:
-  red-backend-app:
-    driver: bridge
