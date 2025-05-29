@@ -5,10 +5,12 @@ WORKDIR /app
 COPY . .
 
 # Instalar solo GCC (no reinstalar JDK innecesariamente)
-RUN apt-get update && \
+RUN sed -i 's|http://|https://|g' /etc/apt/sources.list && \
+    apt-get update && \
     apt-get install -y gcc && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
 
 # Variables JNI
 ENV JAVA_HOME=/opt/java/openjdk
